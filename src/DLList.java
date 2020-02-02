@@ -59,7 +59,7 @@ public class DLList<T> implements List<T> {
 
     @Override
     public void set(int i, T x) {
-        if (i > n || i < 0) {
+        if (i >= n || i < 0) {
             throw new IndexOutOfBoundsException();
         }
         if (i < n/2) {
@@ -124,7 +124,7 @@ public class DLList<T> implements List<T> {
 
     @Override
     public T removeBack() {
-        return remove(n);
+        return remove(n - 1);
     }
 
     @Override
@@ -141,8 +141,7 @@ public class DLList<T> implements List<T> {
 
     @Override
     public boolean isEmpty() {
-        if(n == 0) { return true;}
-        else {return false;}
+        return n == 0;
     }
 
     @Override

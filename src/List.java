@@ -28,7 +28,7 @@ public interface List<T> {
     // entries in this and other will appear, alternating, in this list.
     // After the shorter of the two lists is depleted, the remaining entries
     // in the longer list will follow.
-    void zip(List<T> other);
+    void zip(List<T> other); //ME
 
     // eliminate elements as necessary to eliminate all duplicates. Do not
     // otherwise change the order of the elements. When multiple elements
@@ -41,7 +41,7 @@ public interface List<T> {
 
     // return a list of elements from index 0 up to i-1. This list should now
     // only contain the remaining elements (from i forward).
-    List<T> prefix(int i);
+    List<T> prefix(int i); //ME
 
     // move the entry at index i to the front of the list
     void promote(int i);
