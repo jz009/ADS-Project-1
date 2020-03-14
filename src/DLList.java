@@ -1,3 +1,5 @@
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+
 public class DLList<T> implements List<T> {
 
     private int n;
@@ -107,14 +109,12 @@ public class DLList<T> implements List<T> {
 
     @Override
     public boolean addFront(T x) {
-        add(0, x);
-        return true;
+       return add(0, x);
     }
 
     @Override
     public boolean addBack(T x) {
-        add(n, x);
-        return true;
+       return add(n, x);
     }
 
     @Override
@@ -131,7 +131,6 @@ public class DLList<T> implements List<T> {
     public T find(T x) {
         Node<T> cur = dummy.next;
         for(int i = 0; i < n; i++){
-            System.out.println(cur.x);
             if(cur.x == x)
                 return cur.x;
             cur = cur.next;
@@ -155,23 +154,69 @@ public class DLList<T> implements List<T> {
     }
 
     @Override
-    public void zip(List<T> other) {
-
+    public void zip(List<T> other) { //JAMIE
+        Node<T> p = dummy.next;
+        while (!other.isEmpty()) {
+            if (p.next == dummy){
+                this.concatenate(other);
+            }
+            else {
+                Node<T> newNode = new Node<T>(other.removeFront(), p.next, p);
+                p.next = newNode;
+                newNode.next.prev = newNode;
+                n++;
+                p = p.next.next;
+            }
+        }
     }
 
     @Override
-    public void removeDuplicates() {
+    public void removeDuplicates() { //EVAN
+        Node<T> cur = dummy;
+        Node<T> ref;
+        int i;
 
+        if(cur.next == null) {
+            return;
+        }
+
+        for(cur = dummy.next; cur.x != null; cur = cur.next){
+            for(ref = cur.next; ref.x != null; ref = ref.next){
+                if(cur.x == ref.x){
+                    ref.next.prev = ref.prev;
+                    ref.prev.next = ref.next;
+                    n--;
+                }
+            }
+        }
     }
 
     @Override
-    public void concatenate(List<T> other) {
-
+    public void concatenate(List<T> other) { //EVAN
+        while(!other.isEmpty()){
+            addBack(other.removeFront());
+        }
     }
-
     @Override
-    public List<T> prefix(int i) {
-        return null;
+    public List<T> prefix(int i) //JAMIE
+    {
+        if (i >= n) {
+            throw new IndexOutOfBoundsException();
+        }
+        DLList<T> ret = new DLList<>();
+        Node<T> p = dummy.next;
+        ret.dummy.next = p;
+        p.prev = ret.dummy;
+        for (int j = 0; j < i - 1; j++) {
+            p = p.next;
+        }
+        dummy.next = p.next;
+        p.next.prev = dummy;
+        ret.dummy.prev = p;
+        p.next = ret.dummy;
+        n-= i;
+        ret.n = i;
+        return ret;
     }
 
     @Override
